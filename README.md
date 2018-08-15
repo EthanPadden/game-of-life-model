@@ -1,55 +1,35 @@
-# Evoplex: Minimal Model
+# Conway's Game of Life Model
 
-This is a minimum example of a model plugin for [Evoplex](https://evoplex.github.io). It has the essential files for you to create a new model plugin:
-``` bash
-├── CMakeLists.txt
-├── metadata.json
-├── plugin.cpp
-└── plugin.h
-```
-You do not need to touch the `CMakeLists.txt` file. Also, you must NOT rename any of those files.
+## What is it?
 
-:point_right: **Note:** you *DO NOT* need to compile Evoplex from source to be able to create plugins.
+This is a model plugin for [Evoplex](https://evoplex.org) and is included by default in the software.
 
-### Installing dependencies
-* If you compiled Evoplex from source, you already have all dependencies to compile a plugin and *DO NOT* have to install anything else.
-* If you installed Evoplex from the binary packages, you will have to install the dependencies as follows:
-    * [Instructions for Linux](https://github.com/evoplex/evoplex/wiki/Building-on-Linux#installing-dependencies)
-    * [Instructions for MacOS](https://github.com/evoplex/evoplex/wiki/Building-on-MacOS#installing-dependencies)
-    * [Instructions for Windows](https://github.com/evoplex/evoplex/wiki/Building-on-Windows#installing-dependencies)
+It implements [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) cellular automaton.
 
-### Compiling this plugin
+## How it works
 
-:point_right: if you compiled Evoplex from source in Debug mode, you should also compile your plugin in Debug mode.
+The model runs in a lattice grid with Moore neighbourhood, i.e., each node interacts with its eight immediate neighbours.
 
-:point_right: the plugin must be compiled with the same architecture (32/64 bits) of Evoplex.
+Each node can be in one of two possible states: alive or dead.
 
-#### from QtCreator
-* Open the `CMakeLists.txt`
-* In the projects page, make sure the `EvoplexCore_DIR` is set. If it shows `EvoplexCore_DIR-NOTFOUND` and you compiled Evoplex from source (eg., at `~/evoplex/build`), set it to `~/evoplex/build/src/core/EvoplexCore/` as shown [here](https://i.imgur.com/hyKuFR3.png).
-* Build
+At each step in time, each node updates its state based on the following rules:
+- If the node is alive and has **less than two live neighbors**: the node dies, as if by underpopulation.
+- If the node is alive and has **two or three live neighbors**: the node lives on to the next generation.
+- If the node is alive and has **more than three live neighbors**: the node dies, as if by overpopulation.
+- If the node is dead and has **exactly three live neighbors**: the node becomes alive, as if by reproduction.
 
-#### from command line
-Assuming you placed this repository at `~/evoplex/minimal-model` and you are at `~/evoplex`, just run the commands below:
-``` bash
-mkdir build-plugin
-cd build-plugin
-cmake ../minimal-model
-cmake --build .
-```
-When you run the `cmake` command, you might get an **error** like `FindEvoplexCore.cmake` not found. If you compiled Evoplex from source (eg., at `~/evoplex/build`), just run the command below:
-``` bash
-export EvoplexCore_DIR=~/evoplex/build/src/core/EvoplexCore/
-```
+## Examples
 
+The figure below shows a screenshot of an experiment in Evoplex using this model.
 
-## Running this plugin
-After compiling the plugin, open Evoplex, go to the `Plugins` page, click on `import` and select the `plugin_minimal-model` file at `~/evoplex/minimal-model/build/plugin/`. The plugin will now be available in the `Projects` page.
+<p align="center">
+<img src="example.gif" alt="Example" width="70%">
+</p>
 
-## Support
-- Ask a question in the [mailing list](https://groups.google.com/group/evoplex) (or send it directly to evoplex@googlegroups.com)
-- Follow us on [Twitter](https://twitter.com/EvoplexMAS)
-- Join us on our [Gitter chat channel](https://gitter.im/EvoplexMAS/evoplex)
+## How to cite
+If you mention this model or the Evoplex software in a publication, please cite it as:
 
-## Licensing
-This plugin is available freely under the [MIT license](https://opensource.org/licenses/MIT).
+> Marcos Cardinot, Colm O'Riordan, & Josephine Griffith. (2018). Evoplex: a powerful multi-agent system for networks. Zenodo. http://doi.org/10.5281/zenodo.1340734
+
+## License
+This plugin is licensed under the [MIT License](https://opensource.org/licenses/MIT) terms.
